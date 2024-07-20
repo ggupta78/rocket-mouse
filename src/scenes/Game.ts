@@ -45,6 +45,7 @@ export default class Game extends Phaser.Scene {
       200,
       TextureKeys.Window2
     );
+    this.windows = [this.window1, this.window2];
 
     this.bookcase1 = this.add
       .image(Phaser.Math.Between(2200, 2700), 580, TextureKeys.Bookcase1)
@@ -52,6 +53,7 @@ export default class Game extends Phaser.Scene {
     this.bookcase2 = this.add
       .image(Phaser.Math.Between(2900, 3400), 580, TextureKeys.Bookcase2)
       .setOrigin(0.5, 1);
+    this.bookcases = [this.bookcase1, this.bookcase2];
 
     const mouse = this.physics.add
       .sprite(
@@ -110,6 +112,11 @@ export default class Game extends Phaser.Scene {
         rightEdge + width,
         rightEdge + width + 800
       );
+
+      const overlap = this.bookcases.find((bc) => {
+        return Math.abs(this.window1.x - bc.x) <= this.window1.width;
+      });
+      this.window1.visible = !overlap;
     }
 
     width = this.window2.width;
@@ -118,6 +125,11 @@ export default class Game extends Phaser.Scene {
         this.window1.x + width,
         this.window1.x + width + 800
       );
+
+      const overlap = this.bookcases.find((bc) => {
+        return Math.abs(this.window2.x - bc.x) <= this.window2.width;
+      });
+      this.window2.visible = !overlap;
     }
   }
 
@@ -131,6 +143,11 @@ export default class Game extends Phaser.Scene {
         rightEdge + width,
         rightEdge + width + 800
       );
+
+      const overlap = this.windows.find((win) => {
+        return Math.abs(this.bookcase1.x - win.x) <= win.width;
+      });
+      this.bookcase1.visible = !overlap;
     }
 
     width = this.bookcase2.width;
@@ -139,6 +156,11 @@ export default class Game extends Phaser.Scene {
         this.bookcase1.x + width,
         this.bookcase1.x + width + 800
       );
+
+      const overlap = this.windows.find((win) => {
+        return Math.abs(this.bookcase2.x - win.x) <= win.width;
+      });
+      this.bookcase2.visible = !overlap;
     }
   }
 }
